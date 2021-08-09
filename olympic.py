@@ -11,7 +11,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 import os
 import re
 
-chromedriver = "./chromedriver.exe"
+chromedriver = "./chromedriver"
 os.environ["webserver.chrome.driver"] = chromedriver
 browser = webdriver.Chrome(chromedriver)
 
@@ -49,14 +49,14 @@ if __name__ == '__main__':
 
     URL_CN = 'https://olympics.com/tokyo-2020/olympic-games/zh/results/all-sports/medalists.htm'
 
-    browser.get(URL_CN)
+    browser.get(URL)
     # browser
     result = browser.page_source
-    time.sleep(20)
+    time.sleep(10)
     browser.find_element_by_id(id_="onetrust-accept-btn-handler").click()
-    time.sleep(20)
+    # time.sleep(20)
     result = pd.DataFrame()
-    for i in range(119):
+    for i in range(121):
         html = browser.page_source
         df = parse_medal_info(html)
         result = result.append(df)
@@ -65,5 +65,5 @@ if __name__ == '__main__':
         browser.execute_script(js)
         btn = browser.find_element_by_id(id_='medals-table_next')
         btn.click()
-    result.to_csv('./medal_list_cn.csv', encoding='UTF-8')
+    result.to_csv('./medal_list.csv', encoding='UTF-8')
     browser.close()
